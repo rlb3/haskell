@@ -1,0 +1,76 @@
+
+### We already know about monads
+
+Functional programming languages
+have a reputation for
+using complex concepts --- this
+is probably deserved but it may be 
+discouraging to beginner programmers.
+
+One of the main Haskell features that puts people off is the concept
+of *monads*. In this week's activity, we are going to delve into the `mystery
+of monads' in detail.
+
+First - queue some soothing background music ..
+
+Now, let's start off with the following high-level definition ---
+monads allow sequencing of function calls to be enforced
+by the type system.
+
+is that enough? Well, perhaps it's enough to be getting on with for now.
+Monads allow computations to be chained together. Effectively, a monad
+is a computation pattern.
+
+To reassure you, we have already encountered at least two
+examples of monads. 
+
+### The IO Monad
+
+In week 2 of the course, we studied IO actions like `putStrLn`
+and `getLine`. We looked at the `do` construct for sequencing
+these actions, so the result of one IO action could become the
+input of a subsequent IO action.
+For example,
+do
+  x <- getLine
+  putStrLn ("hello" ++ x)
+
+This is a use of the IO monad, wrapped up as a do block..
+
+### The Maybe Monad
+
+In week 3 of the course, we studied Maybe values, i.e. Just x or
+Nothing --- which are used to represent values from
+computations that may fail.
+Again, we can use `do` to order a sequence of
+computations on Maybe values. This is the Maybe monad.
+
+do 
+  x <- Just 1
+  y <- (\a -> Just (a+1)) x
+  return y
+
+What value does this do block compute?
+(Note that the "return" keyword here puts the final
+computed value in an appropriate context - more details 
+in the next step.)
+
+Let's look at another do block now...
+
+do 
+  x <- Nothing
+  y <- (\a -> Just (a+1)) x
+  return y
+
+What value does this return? The Nothing value propagates
+through the do block, and is returned.
+
+
+
+### General Monads
+
+We are going to investigate the properties of monads in the next few
+steps --- to try and generalize the concept. However it is moderately
+reassuring to think that we have already encountered monadic
+computation in Haskell and understood how it works, at some level.
+

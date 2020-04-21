@@ -1,0 +1,160 @@
+Functions
+
+Defining a function
+
+In Haskell, many functions are pre-defined in a standard library called the Prelude.
+We have already encountered some of them in the previous tutorial, e.g. abs, max and min.
+
+But the essence of functional programming is defining your own functions to solve your problems!
+
+A function is defined by an equation. There are two ways. You can either define a named function, e.g.
+
+	f x = x+1
+
+The left hand side of the equation looks like a variable – and that’s what it is
+The right hand side is an expression that uses the local variables listen in parentheses and defines the result of the expression. To use the function, you apply it to an argument, e.g.
+
+	f 3
+
+You can of also define functions with multiple arguments, e.g.
+
+	add3nums x y z = x + y + z
+
+To use it, e.g.
+
+  10 + 4* add3nums 1 2 3
+
+Lambda Functions
+
+But you can also define a function without a name, known as a "lambda function" (or "anonymous function" in other languages), for example
+
+  \x -> x+1
+
+On the LHS of the arrow you list the arguments, on the RHS the expression. You can use this function straightaway, for example:
+
+	(  \x -> x+1 ) 4
+
+Or you can use an equation to assign the lambda function to a variable:
+
+	fl = \x -> x+1
+
+and use it later:
+
+	fl 4
+
+You can of course also define lambda functions with multiple arguments, e.g.
+
+	add3numsl = \x y z -> x + y + z
+
+To use it, e.g.
+
+  10 + 4* add3numsl 1 2 3
+
+
+<h3>Lists</h3>
+
+<p>A list is a single value that contains several other values. The elements are written in square parentheses, separated by commas, e.g.
+<code>[2.718, 50.0, -1.0]</code> or <code>[1,2,4,8]</code> or <code>["A","list","of","strings"]</code>.</p>
+
+*** Here simply detect a number or a string (so Char or String) and carry on
+
+<h3>Function returning several results</h3>
+
+<p>Actually, a function can return only one result.</p>
+<p>However, lists allow you to package up several values into one object, which can be returned by a function.
+Here is a function <tt>minmax</tt> that returns both the smaller and the larger of two numbers:</p>
+<p><code>minmax = \x y -> [min x y, max x y]</code></p>
+<p>So, for example <code>minmax 3 8</code> and <code>minmax 8 3</code> both return the list [3,8].</p>
+
+*** Here check if they did run that function and return the result, if they didn't just carry on
+
+<p>You can write a constant list, e.g. <code>[2,4,6,8]</code>, and as this is a valid expression you can assign it to a variable, e.g.
+<code>mylist = [2,4,6,8]</code></p>
+<p>But the elements of a list can also be expressions, which are evaluated when they are accessed. Suppose you define:</p>
+
+<p><code>answer = 42</code></p>
+<p><code>yourlist = [7, answer+1, 7*8]</code></p>
+
+*** Here need to check that they actually did something like that, if they did return the result
+
+<p>Then when you evalue <code>yourlist</code> you get <code>[7, 43, 56]</code>.</p>
+
+*** If they did something else, just carry on
+
+Constructing lists
+
+Append: the (++) operator
+
+The (++) operator takes two existing lists, and gives you a new one containing all the elements.
+The operator is pronounced append, and written as two consecutive + characters.
+  [23, 29] ++ [48, 41, 44]
+-- >
+  [23, 29, 48, 41, 44]
+A couple of useful properties:
+
+The length of the result is always the sum of the lengths of the original lists.
+If xs is a list, then []++xs=xs=xs++[].
+Sequences
+
+Sometimes it’s useful to have a sequence of numbers.
+In standard mathematical notation, you can write 0,1,…,n.
+Haskell has a sequence notation for lists.
+Write the sequence in square brackets, with start value, the operator .., and end value.
+[0 .. 5] - > [0,1,2,3,4,5]
+[100 .. 103] - > [100,101,102,103]
+The elements are incremented by 1
+Sequences aren’t limited to numbers
+
+There are many enumerable types where there is a natural way to increment a value.
+You can use sequences on any such type.
+Characters are enumerable: there is a successor to each character.
+[’a’ .. ’z’] - > [’a’,’b’,’c’,’d’,’e’,’f’,’g’,’h’,’i’,’j’,’k’, ’l’,’m’,’n’,’o’,’p’,’q’,’r’,’s’,’t’,’u’,’v’, ’w’,’x’,’y’,’z’]
+[’0’ .. ’9’] - > [’0’,’1’,’2’,’3’,’4’,’5’,’6’,’7’,’8”9’] is a list of characters (which happen to be the digit characters)
+[0 .. 9] - > [0,1,2,3,4,5,6,7,8,9] is a list of numbers
+List comprehensions
+
+A list comprehension is a high level notation for specifying the computation of a list
+The compiler automatically transforms a list comprehensions into an expression using a family of basic functions that operate on lists
+List comprehensions were inspired by the mathematical notation set comprehension.
+Examples of set comprehensions:
+A set obtained by multiplying the elements of another set by 3 is {3×x|x←{1,…,10}}.
+The set of even numbers is {2×x|x←N}.
+The set of odd numbers is {2×x+1|x←N}.
+The cross product of two sets A and B is {(a,b)|a←A,b←B}.
+Examples of list comprehensions
+
+  [3*x | x <- [1..10]]
+-- >
+  [3,6,9,12,15,18,21,24,27,30]
+  [2*x | x <- [0..10]]
+-- >
+  [0,2,4,6,8,10,12,14,16,18,20]
+  [2*x + 1 | x <- [0..10]]
+-- >
+  [1,3,5,7,9,11,13,15,17,19,21]
+  [[a,b] | a <- [10,11,12] , b <- [20,21]]
+-- >
+  [[10,20],[10,21],[11,20],[11,21],[12,20],[12,21]]
+Operating on lists
+
+Indexing a list
+
+We can index a list by numbering the elements, starting with 0.
+Thus a canonical form of a list with n elements is [x0,x1,..xn−1].
+The !! operator takes a list and an index, and returns the corresponding element.
+[5,3,8,7]  !! 2    -- > 8
+[0 .. 100]  !! 81  -- > 81
+['a'..'z'] !! 13  -- > 'n'
+  
+If the index is negative, or too large, undefined is returned.
+For robust programming, we need to ensure either that all expressions are well defined, or else that all exceptions are caught and handled.
+Later, we’ll look at how to follow both of those approaches.
+head and tail
+
+There are standard library functions to give the head of a list (its first element) or the tail (all the rest of the list)
+The result of applying head or tail to the empty list is undefined.
+head :: [a] -> a
+head [4,5,6] -- > 4
+tail :: [a] -> [a]
+tail [4,5,6] -- > [5,6]
+Recommendation: avoid using head and tail, because you want to avoid undefined values so your programs are robust. Unless you’re doing something really sophisticated, you’re better off with pattern matching. There are, however, some cases where they are appropriate.

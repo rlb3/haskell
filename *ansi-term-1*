@@ -1,0 +1,321 @@
+'%                                                                                                                                                                                   
+Ξ Projects/haskell → stack ghci
+Configuring GHCi with the following packages: 
+GHCi, version 8.0.2: http://www.haskell.org/ghc/  :? for help
+Loaded GHCi configuration from /private/var/folders/88/nmrpchx56sl0bl4289hdqqwh0000gn/T/ghci8711/ghci-script
+Prelude> :l tree.hs 
+[1 of 1] Compiling Tree             ( tree.hs, interpreted )
+Ok, modules loaded: Tree.
+*Tree> isSortedTree (Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)) 
+*Tree> 
+*Tree> 
+*Tree> isSortedTree (No
+Node     Nothing
+*Tree> isSortedTree (Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf))
+
+<interactive>:5:1: error:
+    • No instance for (Show (Int -> Int -> Bool))
+        arising from a use of ‘print’
+        (maybe you haven't applied a function to enough arguments?)
+    • In a stmt of an interactive GHCi command: print it
+*Tree> isSortedTree (Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)) 0 5
+True
+*Tree> isSortedTree (Node 2 (Node 1 Leaf Leaf) (Node 3 Leaf Leaf)) 0 2
+False
+*Tree> 
+*Tree> :l tree.hs 
+[1 of 1] Compiling Tree             ( tree.hs, interpreted )
+Ok, modules loaded: Tree.
+*Tree> addNewMax l
+
+<interactive>:10:11: error: Variable not in scope: l :: Tree
+*Tree> addNewMax Leaf
+Node 0 Leaf Leaf
+*Tree> addNewMax (Node 0 Leaf Leaf)
+Node 0 Leaf (Node 1 Leaf Leaf)
+*Tree> addNewMax (Node 10 Leaf Leaf)
+Node 10 Leaf (Node 11 Leaf Leaf)
+*Tree> addNewMax (Node 10 Leaf (Node 20 Leaf Leaf)
+
+<interactive>:14:44: error:
+    parse error (possibly incorrect indentation or mismatched brackets)
+*Tree> addNewMax (Node 10 Leaf (Node 20 Leaf Leaf))
+Node 10 Leaf (Node 20 Leaf (Node 21 Leaf Leaf))
+*Tree> :l tree.hs 
+[1 of 1] Compiling Tree             ( tree.hs, interpreted )
+
+tree.hs:13:8: error:
+    • Couldn't match expected type ‘a’ with actual type ‘Int’
+      ‘a’ is a rigid type variable bound by
+        the type signature for:
+          treeSum :: forall a. Tree a -> Int
+        at tree.hs:10:12
+    • In the second argument of ‘(+)’, namely ‘(treeSum leftSubtree)’
+      In the first argument of ‘(+)’, namely ‘x + (treeSum leftSubtree)’
+      In the expression:
+        x + (treeSum leftSubtree) + (treeSum rightSubtree)
+    • Relevant bindings include
+        rightSubtree :: Tree a (bound at tree.hs:12:29)
+        leftSubtree :: Tree a (bound at tree.hs:12:17)
+        x :: a (bound at tree.hs:12:15)
+        treeSum :: Tree a -> Int (bound at tree.hs:11:1)
+
+tree.hs:18:56: error:
+    • Couldn't match expected type ‘Int’ with actual type ‘a’
+      ‘a’ is a rigid type variable bound by
+        the type signature for:
+          isSortedTree :: forall a. Tree a -> Int -> Int -> Bool
+        at tree.hs:15:17
+    • In the third argument of ‘isSortedTree’, namely ‘x’
+      In the expression: isSortedTree leftSubtree minVal x
+      In an equation for ‘leftSorted’:
+          leftSorted = isSortedTree leftSubtree minVal x
+    • Relevant bindings include
+        rightSubtree :: Tree a (bound at tree.hs:17:34)
+        leftSubtree :: Tree a (bound at tree.hs:17:22)
+        x :: a (bound at tree.hs:17:20)
+        isSortedTree :: Tree a -> Int -> Int -> Bool
+          (bound at tree.hs:16:1)
+
+tree.hs:19:49: error:
+    • Couldn't match expected type ‘Int’ with actual type ‘a’
+      ‘a’ is a rigid type variable bound by
+        the type signature for:
+          isSortedTree :: forall a. Tree a -> Int -> Int -> Bool
+        at tree.hs:15:17
+    • In the second argument of ‘isSortedTree’, namely ‘x’
+      In the expression: isSortedTree rightSubtree x maxVal
+      In an equation for ‘rightSorted’:
+          rightSorted = isSortedTree rightSubtree x maxVal
+    • Relevant bindings include
+        rightSubtree :: Tree a (bound at tree.hs:17:34)
+        leftSubtree :: Tree a (bound at tree.hs:17:22)
+        x :: a (bound at tree.hs:17:20)
+        isSortedTree :: Tree a -> Int -> Int -> Bool
+          (bound at tree.hs:16:1)
+
+tree.hs:20:13: error:
+    • Couldn't match expected type ‘a’ with actual type ‘Int’
+      ‘a’ is a rigid type variable bound by
+        the type signature for:
+          isSortedTree :: forall a. Tree a -> Int -> Int -> Bool
+        at tree.hs:15:17
+    • In the second argument of ‘(>=)’, namely ‘minVal’
+      In the first argument of ‘(&&)’, namely ‘x >= minVal’
+      In the expression:
+        x >= minVal && x < maxVal && leftSorted && rightSorted
+    • Relevant bindings include
+        rightSubtree :: Tree a (bound at tree.hs:17:34)
+        leftSubtree :: Tree a (bound at tree.hs:17:22)
+        x :: a (bound at tree.hs:17:20)
+        isSortedTree :: Tree a -> Int -> Int -> Bool
+          (bound at tree.hs:16:1)
+
+tree.hs:24:23: error:
+    • No instance for (Num a) arising from the literal ‘0’
+      Possible fix:
+        add (Num a) to the context of
+          the type signature for:
+            addNewMax :: Tree a -> Tree a
+    • In the first argument of ‘Node’, namely ‘0’
+      In the expression: Node 0 Leaf Leaf
+      In an equation for ‘addNewMax’: addNewMax Leaf = Node 0 Leaf Leaf
+
+tree.hs:31:15: error:
+    • Couldn't match type ‘a’ with ‘(a, a)’
+      ‘a’ is a rigid type variable bound by
+        the type signature for:
+          treezip :: forall a. Tree a -> Tree a -> Tree a
+        at tree.hs:28:12
+      Expected type: Tree (a, a)
+        Actual type: Tree a
+    • In the second argument of ‘Node’, namely
+        ‘(treezip leftSubtree1 rightSubtree1)’
+      In the expression:
+        Node
+          (x, y)
+          (treezip leftSubtree1 rightSubtree1)
+          (treezip leftSubtree2 rightSubtree2)
+      In an equation for ‘treezip’:
+          treezip
+            (Node x leftSubtree1 rightSubtree1)
+            (Node y leftSubtree2 rightSubtree2)
+            = Node
+                (x, y)
+                (treezip leftSubtree1 rightSubtree1)
+                (treezip leftSubtree2 rightSubtree2)
+    • Relevant bindings include
+        rightSubtree2 :: Tree a (bound at tree.hs:30:66)
+        leftSubtree2 :: Tree a (bound at tree.hs:30:53)
+        y :: a (bound at tree.hs:30:51)
+        rightSubtree1 :: Tree a (bound at tree.hs:30:30)
+        leftSubtree1 :: Tree a (bound at tree.hs:30:17)
+        x :: a (bound at tree.hs:30:15)
+        (Some bindings suppressed; use -fmax-relevant-binds=N or -fno-max-relevant-binds)
+Failed, modules loaded: none.
+Prelude> (-1)
+-1
+Prelude> (1-)
+
+<interactive>:18:1: error:
+    • No instance for (Show (a0 -> a0)) arising from a use of ‘print’
+        (maybe you haven't applied a function to enough arguments?)
+    • In a stmt of an interactive GHCi command: print it
+Prelude> :t (1-)
+(1-) :: Num a => a -> a
+Prelude> x = Maybe 1
+
+<interactive>:20:5: error:
+    • Data constructor not in scope: Maybe :: Integer -> t
+    • Perhaps you meant variable ‘maybe’ (imported from Prelude)
+Prelude> import Data.Maybe
+Prelude Data.Maybe> x = Maybe 1
+
+<interactive>:22:5: error:
+    • Data constructor not in scope: Maybe :: Integer -> t
+    • Perhaps you meant variable ‘maybe’ (imported from Prelude)
+Prelude Data.Maybe> x = Data.Maybe 1
+
+<interactive>:23:5: error:
+    Not in scope: data constructor ‘Data.Maybe’
+    No module named ‘Data’ is imported.
+Prelude Data.Maybe> let x = Just 1
+Prelude Data.Maybe> let y = Just 2
+Prelude Data.Maybe> x > y
+False
+Prelude Data.Maybe> x < y
+True
+Prelude Data.Maybe> let y = Nothing
+Prelude Data.Maybe> x < y
+False
+Prelude Data.Maybe> x > y
+True
+Prelude Data.Maybe> y
+Nothing
+Prelude Data.Maybe> x
+Just 1
+Prelude Data.Maybe> from
+fromEnum      fromInteger   fromIntegral  fromJust      fromMaybe     fromRational
+Prelude Data.Maybe> fromMaybe x
+
+<interactive>:33:1: error:
+    • No instance for (Show (Maybe (Maybe a0) -> Maybe a0))
+        arising from a use of ‘print’
+        (maybe you haven't applied a function to enough arguments?)
+    • In a stmt of an interactive GHCi command: print it
+Prelude Data.Maybe> fromMaybe x 3
+
+<interactive>:34:1: error:
+    • Non type-variable argument
+        in the constraint: Num (Maybe (Maybe a))
+      (Use FlexibleContexts to permit this)
+    • When checking the inferred type
+        it :: forall a. (Num (Maybe (Maybe a)), Num a) => Maybe a
+Prelude Data.Maybe> x
+Just 1
+Prelude Data.Maybe> :t fromMaybe 
+fromMaybe :: a -> Maybe a -> a
+Prelude Data.Maybe> fromMaybe 1 x
+1
+Prelude Data.Maybe> fromMaybe 5 x
+1
+Prelude Data.Maybe> :quit
+Leaving GHCi.
+Ξ Projects/haskell → stack ghci
+Configuring GHCi with the following packages: 
+GHCi, version 8.0.2: http://www.haskell.org/ghc/  :? for help
+Loaded GHCi configuration from /private/var/folders/88/nmrpchx56sl0bl4289hdqqwh0000gn/T/ghci12056/ghci-script
+Prelude> Just 2
+Just 2
+Prelude> :t Just 2
+Just 2 :: Num a => Maybe a
+Prelude> :info []
+data [] a = [] | a : [a]        -- Defined in ‘GHC.Types’
+instance Eq a => Eq [a] -- Defined in ‘GHC.Classes’
+instance Monad [] -- Defined in ‘GHC.Base’
+instance Functor [] -- Defined in ‘GHC.Base’
+instance Ord a => Ord [a] -- Defined in ‘GHC.Classes’
+instance Read a => Read [a] -- Defined in ‘GHC.Read’
+instance Show a => Show [a] -- Defined in ‘GHC.Show’
+instance Applicative [] -- Defined in ‘GHC.Base’
+instance Foldable [] -- Defined in ‘Data.Foldable’
+instance Traversable [] -- Defined in ‘Data.Traversable’
+instance Monoid [a] -- Defined in ‘GHC.Base’
+Prelude> "a" + "b"
+
+<interactive>:4:1: error:
+    • No instance for (Num [Char]) arising from a use of ‘+’
+    • In the expression: "a" + "b"
+      In an equation for ‘it’: it = "a" + "b"
+Prelude> "a" ++ "b"
+"ab"
+Prelude> "a" ++ read 'b'
+
+<interactive>:6:13: error:
+    • Couldn't match type ‘Char’ with ‘[Char]’
+      Expected type: String
+        Actual type: Char
+    • In the first argument of ‘read’, namely ‘'b'’
+      In the second argument of ‘(++)’, namely ‘read 'b'’
+      In the expression: "a" ++ read 'b'
+Prelude> "a" ++ read 'b' :: Char
+
+<interactive>:7:1: error:
+    • Couldn't match expected type ‘Char’ with actual type ‘[Char]’
+    • In the expression: "a" ++ read 'b' :: Char
+      In an equation for ‘it’: it = "a" ++ read 'b' :: Char
+
+<interactive>:7:13: error:
+    • Couldn't match type ‘Char’ with ‘[Char]’
+      Expected type: String
+        Actual type: Char
+    • In the first argument of ‘read’, namely ‘'b'’
+      In the second argument of ‘(++)’, namely ‘read 'b'’
+      In the expression: "a" ++ read 'b' :: Char
+Prelude> "a" + read 1
+
+<interactive>:8:1: error:
+    • No instance for (Num [Char]) arising from a use of ‘+’
+    • In the expression: "a" + read 1
+      In an equation for ‘it’: it = "a" + read 1
+Prelude> 2 + read "1"
+3
+Prelude> read "1"
+*** Exception: Prelude.read: no parse
+Prelude> read "1" :: Int
+1
+Prelude> read "1" :: Float
+1.0
+Prelude> read "1" :: Double
+1.0
+Prelude> import Text.ParserCombinators.Parsec
+Prelude> parseTest (char 'b') "cons"
+Prelude> 
+Prelude> import Text.ParseCombinators.Parsec
+
+<no location info>: error:
+    Could not find module ‘Text.ParseCombinators.Parsec’
+    Perhaps you meant
+      Text.ParserCombinators.Parsec (from parsec-3.1.11@parsec-3.1.11-113irVHGgd88sRnywByDNw)
+      Text.ParserCombinators.Parsec.Pos (from parsec-3.1.11@parsec-3.1.11-113irVHGgd88sRnywByDNw)
+      Text.ParserCombinators.Parsec.Char (from parsec-3.1.11@parsec-3.1.11-113irVHGgd88sRnywByDNw)
+Prelude> import Text.ParserCombinators.Parsec
+Prelude Text.ParserCombinators.Parsec> parseTest (char 'b') "cons"
+Prelude Text.ParserCombinators.Parsec> parse
+parse          parseFromFile  parseTest
+Prelude Text.ParserCombinators.Parsec> parseTest (char 'b') "cons"
+parse error at (line 1, column 1):
+unexpected "c"
+expecting "b"
+Prelude Text.ParserCombinators.Parsec> parseTest (char 'c') "cons"
+'c'
+Prelude Text.ParserCombinators.Parsec> data Status = Fail deriving Ord
+
+<interactive>:22:29: error:
+    • No instance for (Eq Status)
+        arising from the 'deriving' clause of a data type declaration
+      Possible fix:
+        use a standalone 'deriving instance' declaration,
+          so you can specify the instance context yourself
+    • When deriving the instance for (Ord Status)
+Prelude Text.ParserCombinators.Parsec> data Status = Fail deriving Ord

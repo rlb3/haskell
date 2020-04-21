@@ -1,0 +1,388 @@
+%-----------------------------------------------------------------------
+% Functional Programming 4
+% John O'Donnell, Wim Vanderbauwhede
+%-----------------------------------------------------------------------
+
+\documentclass{beamer}
+%include polycode.fmt
+%format alpha = "\alpha"
+%format ~> = "\leadsto "
+\usepackage{jtodlecseriesFP4}
+\usepackage{url}
+% Identify this presentation
+\SetPresentationTitle
+  {Getting Started}
+  {Getting Started}
+\SetPresentationNumber
+  {1}
+\SetPresentationDate
+  {Week 1-1}
+  {Week 1-1}
+
+%-----------------------------------------------------------------------
+% Beginning
+
+\begin{document}
+
+\begin{frame}
+  \PresentationTitleSlide
+\end{frame}
+
+\begin{frame}
+ \frametitle{Topics}
+ \tableofcontents
+\end{frame}
+
+%-----------------------------------------------------------------------
+
+\begin{frame}
+\begin{center}
+\includegraphics[scale=0.35]
+	{figures/jpg/pic01.jpg}
+\end{center}
+\end{frame}
+%-----------------------------------------------------------------------
+\section{Expressions}
+
+\begin{frame}
+\frametitle{Expressions in Haskell}
+
+\begin{itemize}
+\item In an imperative language like C or Java,
+  \begin{itemize}
+  \item there are expressions that denote small scale computations
+    (2*x), and
+  \item  \emph{statements} that handle sequencing, looping,
+    conditionals, and all the large scale operation of the program.
+  \end{itemize}
+\item \emph{Pure functional programming languages don't have any statements} --- no
+  assignments, no jumps.
+\item Instead, \emph{all computation is performed by evaluating
+    expressions}
+\item So, let's start with expressions!
+  \begin{itemize}
+  \item (We'll still be working on expressions at the end of the
+    course, since that's all there is.)
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+%-----------------------------------------------------------------------
+
+\begin{frame}[fragile]
+\frametitle{Examples of integer expressions}
+
+An expression evaluates to a result (usually written $e \rightsquigarrow r$ but we'll use \texttt{e -- > r}).  Haskell uses a similar notation for numbers and operators as most languages:
+
+\begin{verbatim}
+2 -- > 2
+\end{verbatim}
+
+\begin{verbatim}
+3+4 -- > 7
+\end{verbatim}
+
+\begin{verbatim}
+3+4*5    {equivalent to 3+(4*5)} -- > 23
+\end{verbatim}
+
+\begin{verbatim}
+(3+4)*5   {equivalent to 7*5} -- > 35    
+\end{verbatim}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}
+\frametitle{Syntax of expressions}
+
+\begin{itemize}
+\item Parentheses are used for grouping, just as in mathematics. 
+\item If you don't need parentheses for grouping, they are
+  optional.
+\item Operators have precedence, e.g. $*$ has ``tighter''
+  precedence than $+$, so $2+3*4$ means $2+(3*4)$.
+\item Use reference documentation for complete list of operators
+  and their precedences, if you need them.
+%\item Warning!  Don't write just -3 to get the number "negative
+ % three", you often need to write (-3).
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Function applications}
+
+\begin{itemize}
+\item A function takes argument(s), performs some computation, and
+  produces result(s).
+\item The function $abs$ gives the absolute value of a number.
+\item To use a function, you apply it to an argument.  Write the
+  function followed by the argument, separated by a space.
+\end{itemize}
+
+\begin{verbatim}
+abs 5 -- > 5
+\end{verbatim}
+
+\begin{verbatim}
+abs (-6) -- > 6
+\end{verbatim}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}[fragile]
+
+\frametitle{Parentheses are for grouping}
+
+Good style
+
+\begin{verbatim}
+2+3*5
+2+(3*5)     {might be clearer to some readers}
+abs 7
+\end{verbatim}
+
+You don't need parentheses.  The following are legal, but they look
+silly:
+
+\begin{verbatim}
+(2) + ((3+(((((5)))))))
+abs (5)
+abs (((5)))
+\end{verbatim}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+
+%-----------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Functions with several arguments}
+
+\begin{itemize}
+\item $min$ and $max$ are functions that take two arguments.
+\item The arguments are given after the function,  separated by
+  whitespace. 
+\item Write $min\; 3\; 8$, don't write $min(3,8);$
+\end{itemize}
+
+\begin{verbatim}
+  min 3 8
+-- >
+  3
+
+  max 3  8
+-- >
+  8
+\end{verbatim}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}
+\frametitle{Precedence of function application}
+
+\begin{itemize}
+\item Function application binds tighter than anything else.
+\item So \texttt{f x + 3} means \texttt{(f x) + 3} and not \texttt{f (x+3)}
+\item If an argument to a function is an expression, you'll need to
+  put it in parentheses.
+\end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Functions and Operators}
+
+\begin{itemize}
+\item So far, we've used operators in expressions and introduced functions.
+\item You might wonder: what is the difference between an operator and a function?
+\item And the answer is, in Haskell there is fundamentally no difference: you can use an operator as a function and a function as an operator: 
+\item To use an operator as a function, enclose it in parentheses:
+
+\begin{verbatim}
+(+) 5 6 -- same as 5 + 6
+\end{verbatim}
+\item To use a function as an operator, enclose it in backticks:
+
+\begin{verbatim}
+ 5 `max` 6 -- same as max 5 6
+\end{verbatim}
+\end{itemize}
+\end{frame}
+
+
+%-----------------------------------------------------------------------
+\section{Equations}
+
+\begin{frame}[fragile]
+\frametitle{Equations}
+
+\begin{itemize}
+\item Equations are used to give names to values.
+\end{itemize}
+
+\begin{verbatim}
+answer = 42
+\end{verbatim}
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}
+\frametitle{Equations give names to values}
+
+\begin{itemize}
+\item An equation in Haskell is a mathematical equation: it says
+  that the left hand side and the right hand side denote the same
+  value.
+\item The left hand side should be a name that you're giving a
+  value to.
+  \begin{itemize}
+  \item Correct: \texttt{x = 5*y}
+  \item Incorrect: \texttt{2 * x = (3*x)**2} -- Reassignment is not allowed in a pure FPL
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Equations are not assignments}
+
+\begin{itemize}
+\item A name \emph{can be given only one value}.
+\item Names are often called ``variables'', but they \emph{do not
+    vary}.
+\item In Haskell \emph{variables are constant}!
+ 
+\end{itemize}
+
+\begin{verbatim}
+n = 1    -- just fine!
+x = 3*n  -- fine
+n = x    -- Wrong: can have only one definition of n
+\end{verbatim}
+
+\begin{itemize}
+\item Once you give a value to a name, you can never change it!
+\item This is part of the meaning of ``pure'' and
+  ``no side effects''
+\end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+
+\begin{frame}
+\frametitle{What about n = n+1?}
+
+\begin{itemize}
+\item In imperative languages, we frequently say $n := n+1$.
+  \begin{itemize}
+  \item This is an assignment, not an equation!
+  \item It means (1) compute the right hand side, using the old
+    value of $n$; then (2) discard the old value of $n$ and
+    overwrite it with the new value.
+  \item \emph{There are no equations in imperative languages like C
+      and Java.}
+  \end{itemize}
+\item In Haskell, it is valid to write $n = n+1$.
+  \begin{itemize}
+  \item This is an equation, not an assignment!
+  \item It means: compute the value of $n$ that has the property
+    that $n = n+1$.
+  \item Haskell will try, and it will fail.
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+
+%-----------------------------------------------------------------------
+\begin{frame}
+\frametitle{How can you compute without assignments?}
+
+\begin{itemize}
+\item Think of an assignment statement as doing three things:
+  \begin{enumerate}
+  \item It evaluates the right hand side: computing a useful value.
+  \item It discards the value of the variable on the left hand
+    side: destroying a value that might or might not be useful.
+  \item It saves the useful value of the RHS into the variable.
+  \end{enumerate}
+\item In a pure functional language
+  \begin{itemize}
+  \item We never destroy old values.
+  \item We just compute new useful ones.
+  \item If the old value was truly useless, the garbage collector
+    will reclaim its storage.
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\section{Try Haskell!}
+
+
+
+
+%-----------------------------------------------------------------------
+\begin{frame}
+\frametitle{Haskell in your browser}
+
+\begin{itemize}
+\item You can try out Haskell in your browser! Go to \url{https://www.tryhaskell.org}, an interactive Haskell environment ready to use.
+\end{itemize}
+
+\end{frame}
+
+%-----------------------------------------------------------------------
+\begin{frame}
+\frametitle{Installing Haskell}
+
+\begin{itemize}
+\item  You can install the Haskell compiler/interpreter on your own computer. Go to \url{https://www.haskell.org/platform} to get the Haskell Platform for your system, it is very easy to install.
+
+\item \emph{All software used in this course is free software.}
+\item Try experimenting with the expressions shown in this lecture.
+\item And try some experiments of your own.
+\end{itemize}
+
+
+\end{frame}
+
+
+%-----------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Launching ghci}
+
+To launch the  Haskell interpreter \emph{ghci}:
+{\footnotesize
+\begin{verbatim}
+[wim@fp4 ~]$ghci
+GHCi, version 7.8.3: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+Prelude> 
+\end{verbatim}
+}
+
+Evaluate an expression
+
+\begin{verbatim}
+ls> 3+4
+7
+\end{verbatim}
+
+\end{frame}
+
+
+
+
+\end{document}

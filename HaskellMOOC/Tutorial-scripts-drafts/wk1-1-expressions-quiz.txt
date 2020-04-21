@@ -1,0 +1,103 @@
+Quiz for Lecture on Expressions and Equations 
+
+8 Questions, multiple choice. 
+
+1. What is the difference between an expression and a statement in an imperative programming language
+
+1.a (correct)
+
+* Expressions denote small scale computations that return a value
+* Statements handle sequencing, looping, conditionals, and all the large scale operation of a program
+
+1.b
+
+Expressions determine control flow and are often composed of statements
+
+2. What is the result of the following expression in Haskell, where sqrt returns the square root of its argument:  `sqrt 16+9`
+
+2.a 
+
+5
+
+2.b (correct)
+
+13
+
+
+3. What is the result of the following expression in Haskell, where sqrt returns the square root of its argument: 
+
+  sqrt (16+9)
+
+2.a (correct)
+
+5
+
+2.b
+
+13
+
+4. Give one reason why the following code is incorrect in Haskell:
+
+  x = 4
+  x = ((x * 2))
+
+4.a 
+Because there are too many parenteses
+
+4.b (correct)
+Because you can assign an expression to a name only once
+
+5. What is the term for variables that can be assigned to an expression only once?
+
+5.a (correct) 
+
+immutable variables
+
+5.b 
+
+constant variables
+
+6. What is the result of the expression `abs -6` in Haskell, where abs returns the absolute value of its argument.
+
+6.a 
+
+6
+
+6.b (correct)
+
+An error because Haskell interprets this code as `abs - 6` and abs  requires a numerical argument.
+
+7. In Haskell, what is the name for the type of expression
+
+  n = n + 1
+
+7.a (correct)
+
+equation
+
+7.b
+
+assignment
+
+8. Is it valid to write `n = n + 1` in Haskell
+
+8.a (correct)
+Yes, but Haskell will fail to compute the result
+
+8.b
+No, it is a syntax error
+
+
+
+
+
+Final text of questions:
+
+1 	What is the difference between an expression and a statement in an imperative programming language 	Edit Delete
+2 	What is the result of the following expression in Haskell, where sqrt returns the square root of its argument: `sqrt 16+9` 	Edit Delete
+3 	What is the result of the following expression in Haskell, where sqrt returns the square root of its argument: 	Edit Delete
+4 	Give one reason why the following code is incorrect in Haskell: 	Edit Delete
+5 	What is the term for variables that can be assigned to an expression only once? 	Edit Delete
+6 	What is the result of the expression `abs -6` in Haskell, where abs returns the absolute value of its argument. 	Edit Delete
+7 	In Haskell, what is the name for the type of expression 	Edit Delete
+8 	Is it valid to write `n = n + 1` in Haskell 	Edit Delete

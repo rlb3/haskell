@@ -1,0 +1,114 @@
+Using QuickCheck
+
+In this video, we are going to find out about a powerful
+automated testing tool called QuickCheck.
+This allows us to run randomly generated
+tests on our code, to see whether
+it meets certain properties that we specify.
+QuickCheck comes as part of the Haskell platform, so you 
+should already have access to it on your own machine.
+
+It's a powerful testing technique, used in the software
+industry - for instance lots of Telecoms software is
+tested with QuickCheck.
+
+
+
+OK - suppose we want to implement a substitution cipher - 
+let's do Caesar's cipher - where we encode letters by shifting
+them a certain number of spaces along in the alphabet.
+In this example, we shift letters one place, so BEE in
+plaintext would become ADD in ciphertext.
+
+We might ask what plaintext A should be, in code?
+The answer is Z - the alphabet wraps round. (So properly, this
+is a rotation rather than a shift).
+
+Let's have a look at how we might implement Caesar's cipher in Haskell.
+
+import Data.Char
+
+(add code from ciphers.hs)
+We select candidate characters for ciphertext - only letters,
+not numbers or punctuation characters.
+
+We move the letters along n places in the alphabet -
+need to use ord and chr to convert to/from integers -
+type safety is important here. We can't add integers to
+characters directly.
+
+Then we use a map function to apply this character shifting
+to all the letters in a String.
+
+great, we have shifted the letters along the right number of places...
+
+e.g. let's try cipher "hello" 1
+cipher "veni vidi vici" 3
+
+(I know , I know,  this isn't correct code because it doesn't wrap around the alphabet, 
+but bear with me for now...)
+
+now - for the decipher, we want to shift letters back the same number of places - 
+
+decipher n ciphertext -> (cipher (-n) ciphertext)
+
+Now, we want to check this works properly - of course - 
+we know it shouldn't .. because we haven't done the wrapping round the alphabet for
+z.
+
+Rather than devise a number of test cases, we will use the QuickCheck tool
+to generate random input data 
+and check whether the correctness property holds.
+
+for all integers x, strings y . decipher( x (cipher x y)) == y
+i.e. if we cipher a message, and then decipher it, we should get back
+the original message.
+
+first we import the QuickCheck module
+
+import Test.QuickCheck
+
+then we ask it to check our property
+We need to write the property as a lambda abstraction 
+that takes two parameters  - the integer shift and the
+plaintext string  - and returns a boolean - which is True
+when the decryption of the encryption is the same as the 
+original message.
+
+quickCheck ((\n->(\s -> ((decipher n (cipher n s))==s))) :: [Char] -> Int -> Bool)
+
+Then we can call to the quickcheck tool - note that 
+we need to type the expression so quickCheck knows what
+types of values to randomly generate ...
+
+OK - run quickcheck
+(defaults to 100 tests) - 
+
+Aargh! this fails -on the xth test.
+
+we can actually trace quickCheck, to see what the randomly generated
+input data looks like
+verbosecheck
+
+Let's look at the problem ...
+it's a letter that, when shifted, should wrap around the alphabet - but our
+cipherchar doesn't do the adjustment for wrapping.
+
+
+
+ok - let's write a correct Caesar's cipher program.
+We need to check that we wrap round the alphabet, from z to a ... onwards.
+
+(add in code here)
+
+and now we can run QuickCheck on this - test the property again...
+
+
+Great - we pass all the tests this time!
+
+A word of warning - Even though the property is correct for all tests, this doesn't guarantee the code is correct.
+Edsger  Dijkstra, a famous Computer Scientist,  said 'testing can only show the presence of bugs, not their absence'. 
+However QuickCheck provides a nice way to generate automated random tests.
+
+
+In the next article, we are going to explore QuickCheck in more detail.

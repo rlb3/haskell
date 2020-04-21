@@ -1,0 +1,95 @@
+### Lazy is Good
+
+In real life, laziness is frowned upon and considered to be a vice.
+However in programming languages, laziness is a feature, 
+and may be considered to be a good thing.
+Haskell is a *lazy* language --- this means that the evaluation
+of expressions is delayed until their values are actually needed.
+
+This is the opposite of *eager* evaluation, which is what most 
+languages implement (e.g. C, Java, Python, ML).
+
+For instance, consider this expression
+
+~~~ haskell
+f(1+1)
+~~~
+
+given this function definition:
+
+~~~ haskell
+f : Int->Int
+f x = 0
+~~~
+
+In an eager language, the calculation `1+1` is done when the
+function `f` is invoked (known as *call-by-value*) 
+whereas in a lazy language
+like Haskell, the calculation `1+1` is only done when the parameter
+value is used in the function body (known as *call-by-need*).
+
+So in a lazy language, if a parameter value is never needed, then
+the parameter is never evaluated. 
+Consider: 
+
+~~~ haskell
+f: Int -> Int -> Int
+f x y = y
+~~~
+
+then
+   f (1+1) (2+2)
+has value 4, and the calculation of `1+1` is never performed.
+
+Formally, we say the function `f` is *strict* in its second argument.
+
+Some values do not terminate when we try to evaluate them.
+The simplest non-terminating value is called *bottom* ---
+written in mathematical notation as $\bottom$.
+Here is its recursive definition:
+
+~~~ haskell
+bot :: a
+bot = bot
+~~~
+
+A function is strict in its argument if, when we supply bottom
+as that argument, the function fails to terminate.
+
+    f bot 42
+
+terminates fine, since we never evaluate the first argument.
+On the other hand,
+
+    f 42 bot
+
+loops for ever, or at least, until we press CTRL-C.
+
+### Infinite Data Structures
+
+Laziness is very useful when dealing with *infinite* data.
+For instance, think of the infinite list of 1 values.
+We can define this in ghci as:
+
+~~~ haskell
+let ones = 1 : ones
+~~~
+
+* What value is returned by `head(ones)`?
+* What value is returned by `tail(ones)`?
+
+If you evaluate this in ghci, you will find that
+`tail(ones)` never terminates. Press CTRL+C
+to interrupt the computation.
+
+The `take` function selects a finite number of elements from the
+front of a (potentially infinite) list.
+
+~~~ haskell
+take 5 ones
+~~~
+
+To summarize:
+* if computations are not needed, then they won't be evaluated
+* we can compute with infinite data structures, so long as we don't
+  traverse the structure infinitely
